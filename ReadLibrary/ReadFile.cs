@@ -9,14 +9,22 @@ namespace ReadLibrary
 {
     public static class ReadFile
     {
-        public static string Read(string filePath, string fileExtension)
+        public static string Read(string filePath, string fileExtension, bool encrypted)
         {
             if (Path.GetExtension(filePath) == fileExtension)
             {
                 try
                 {
-                    string text = System.IO.File.ReadAllText(filePath);
-                    return text;
+                    if (encrypted)
+                    {
+                        string text = Encryption.Translate(System.IO.File.ReadAllText(filePath));
+                        return text;
+                    }
+                    else
+                    {
+                        string text = System.IO.File.ReadAllText(filePath);
+                        return text;
+                    }   
                 }
                 catch
                 {

@@ -16,6 +16,7 @@ namespace ReadConsole
             string fileType = string.Empty;
             string fileContent = string.Empty;
             bool useProgram = true;
+            bool encrypted = false;
 
             while (useProgram)
             {
@@ -27,8 +28,10 @@ namespace ReadConsole
                     switch (fileType)
                     {
                         case ("TEXT"):
+                        case ("text"):
                             typeNotChosen = false;
                             break;
+                        case ("xml"):
                         case ("XML"):
                             typeNotChosen = false;
                             break;
@@ -39,6 +42,32 @@ namespace ReadConsole
                     }
                 }
                 Console.WriteLine("");
+
+                if (fileType == "TEXT" || fileType == "text")
+                {
+                    bool encryptionNotChosen = true;
+                    while (encryptionNotChosen)
+                    {
+                        Console.WriteLine("Is the file encrypted? (y/n)");
+                        string encryptionChoice = Console.ReadLine();
+                        switch (encryptionChoice)
+                        {
+                            case "y":
+                            case "Y":
+                                encryptionNotChosen = false;
+                                encrypted = true;
+                                break;
+
+                            case "n":
+                            case "N":
+                                encryptionNotChosen = false;
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                }
                 bool pathIncorrect = true;
                 while (pathIncorrect)
                 {
@@ -51,12 +80,14 @@ namespace ReadConsole
                         switch (fileType)
                         {
                             case "TEXT":
-                                fileContent = ReadFile.Read(path, ".txt");                              
+                            case "text":
+                                fileContent = ReadFile.Read(path, ".txt", encrypted);                              
                                 pathIncorrect = false;   
                                 break;
                                 
                             case "XML":
-                                fileContent = ReadFile.Read(path, ".xml");
+                            case "xml":
+                                fileContent = ReadFile.Read(path, ".xml", encrypted);
                                 pathIncorrect = false;
                                 break;
                         }
@@ -69,9 +100,16 @@ namespace ReadConsole
                         }
                         
                     }
-                    catch (System.InvalidOperationException ex)
+                    catch (System.Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
+                       if (ex is InvalidOperationException)
+                        {
+                            Console.WriteLine(((InvalidOperationException)ex).Message);
+                        }
+                       else
+                        {
+                            Console.WriteLine("Something went wrong");
+                        }
                     }
                 }
                 Console.WriteLine("Press enter to read another file or type 'stop' to stop");
