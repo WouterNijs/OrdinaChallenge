@@ -9,13 +9,13 @@ namespace ReadLibrary
 {
     public static class ReadFile
     {
-        public static string Read(string filePath, string fileExtension, bool encrypted, Roles role)
+        public static string Read(string filePath, string fileExtension, bool encrypted, Roles role, bool security)
         {
             if (Path.GetExtension(filePath) == fileExtension)
             {
                 try
                 {
-                    if (role == Roles.Admin)
+                    if (role == Roles.Admin || !security)
                     {
                         if (encrypted)
                         {

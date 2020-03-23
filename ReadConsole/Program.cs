@@ -47,7 +47,7 @@ namespace ReadConsole
                 }
                 Console.WriteLine("");
 
-                if (fileType == "TEXT")
+                if (fileType == "TEXT" || fileType == "XML")
                 {
                     bool encryptionNotChosen = true;
                     while (encryptionNotChosen)
@@ -139,12 +139,12 @@ namespace ReadConsole
                         switch (fileType)
                         {
                             case "TEXT":                         
-                                fileContent = ReadFile.Read(path, ".txt", encrypted, role);                              
+                                fileContent = ReadFile.Read(path, ".txt", encrypted, role, security);                              
                                 pathIncorrect = false;   
                                 break;
                                 
                             case "XML":
-                                fileContent = ReadFile.Read(path, ".xml", encrypted, role);
+                                fileContent = ReadFile.Read(path, ".xml", encrypted, role, security);
                                 pathIncorrect = false;
                                 break;
                         }
