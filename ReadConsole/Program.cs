@@ -28,7 +28,7 @@ namespace ReadConsole
                 bool typeNotChosen = true;
                 while (typeNotChosen)
                 {
-                    Console.WriteLine("Enter file type (TEXT or XML)");
+                    Console.WriteLine("Enter file type (TEXT, XML or JSON)");
                     fileType = Console.ReadLine();
                    fileType = fileType.ToUpper();
                     switch (fileType)
@@ -38,6 +38,10 @@ namespace ReadConsole
                             break;
 
                         case ("XML"):
+                            typeNotChosen = false;
+                            break;
+
+                        case ("JSON"):
                             typeNotChosen = false;
                             break;
                         default:
@@ -145,6 +149,10 @@ namespace ReadConsole
                                 
                             case "XML":
                                 fileContent = ReadFile.Read(path, ".xml", encrypted, role, security);
+                                pathIncorrect = false;
+                                break;
+                            case "JSON":
+                                fileContent = ReadFile.Read(path, ".json", encrypted, role, security);
                                 pathIncorrect = false;
                                 break;
                         }
