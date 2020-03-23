@@ -74,7 +74,7 @@ namespace ReadConsole
                     Console.WriteLine("");
                 }               
 
-                if (fileType == "XML")
+                if (fileType == "XML" || fileType == "TEXT")
                 {
                     bool securityNotChosen = true;
                     while (securityNotChosen)
