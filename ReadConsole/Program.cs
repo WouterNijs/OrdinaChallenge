@@ -49,10 +49,7 @@ namespace ReadConsole
                             break;
                     }
                 }
-                Console.WriteLine("");
-
-                if (fileType == "TEXT" || fileType == "XML")
-                {
+                Console.WriteLine("");  
                     bool encryptionNotChosen = true;
                     while (encryptionNotChosen)
                     {
@@ -76,7 +73,7 @@ namespace ReadConsole
                         }
                     }
                     Console.WriteLine("");
-                }               
+                              
 
                 if (fileType == "XML" || fileType == "TEXT")
                 {
