@@ -12,82 +12,139 @@ namespace ReadConsole
     {
         static void Main(string[] args)
         {
-            //initialize variables
+            //Initialize variables
             string fileType = string.Empty;
             string fileContent = string.Empty;
             bool useProgram = true;
-            bool encrypted = false;
 
+            //Easier to read file
+            Console.SetWindowSize(150, 50);
+            
             while (useProgram)
             {
+                bool encrypted = false;
+                bool security = false;
+                Roles role = Roles.User;
                 bool typeNotChosen = true;
                 while (typeNotChosen)
                 {
                     Console.WriteLine("Enter file type (TEXT or XML)");
                     fileType = Console.ReadLine();
+                   fileType = fileType.ToUpper();
                     switch (fileType)
                     {
                         case ("TEXT"):
-                        case ("text"):
                             typeNotChosen = false;
                             break;
-                        case ("xml"):
+
                         case ("XML"):
                             typeNotChosen = false;
                             break;
                         default:
                             Console.WriteLine("File type incorrect or not supported");
                             break;
-
                     }
                 }
                 Console.WriteLine("");
 
-                if (fileType == "TEXT" || fileType == "text")
+                if (fileType == "TEXT")
                 {
                     bool encryptionNotChosen = true;
                     while (encryptionNotChosen)
                     {
                         Console.WriteLine("Is the file encrypted? (y/n)");
                         string encryptionChoice = Console.ReadLine();
+                        encryptionChoice = encryptionChoice.ToUpper();
                         switch (encryptionChoice)
                         {
-                            case "y":
                             case "Y":
                                 encryptionNotChosen = false;
                                 encrypted = true;
                                 break;
 
-                            case "n":
                             case "N":
                                 encryptionNotChosen = false;
                                 break;
 
                             default:
+                                Console.WriteLine("Wrong input. Try again.");
                                 break;
                         }
                     }
+                    Console.WriteLine("");
+                }               
+
+                if (fileType == "XML")
+                {
+                    bool securityNotChosen = true;
+                    while (securityNotChosen)
+                    {
+                        Console.WriteLine("Use role based security? (y/n)");
+                        string securityChoice = Console.ReadLine();
+                        securityChoice = securityChoice.ToUpper();
+                        switch (securityChoice)
+                        {                           
+                            case "Y":
+                                securityNotChosen = false;
+                                security = true;
+                                break;
+
+                            case "N":
+                                securityNotChosen = false;
+                                break;
+
+                            default:
+                                Console.WriteLine("Wrong input. Try again.");
+                                break;
+                        }
+                        Console.WriteLine("");
+                    }
+                    
                 }
+                if (security)
+                {
+                    
+                    bool roleChosen = false;
+                    while (!roleChosen)
+                    {
+                        Console.WriteLine("Enter your role: (admin/user)");
+                        string roleChoice = Console.ReadLine();
+                        roleChoice = roleChoice.ToUpper();
+                      switch (roleChoice)
+                        {                      
+                            case "ADMIN":                           
+                                roleChosen = true;
+                                role = Roles.Admin;
+                                break;
+                            case "USER":                            
+                                roleChosen = true;
+                                // User by default
+                                break;
+                            default:
+                                Console.WriteLine("Role doesn't exist. Try again: (admin/user)");
+                                break;
+                      }
+                        Console.WriteLine("");
+                    }
+                }
+
                 bool pathIncorrect = true;
                 while (pathIncorrect)
                 {
                     Console.Write("Enter file path:");
-                    string path = Console.ReadLine();
-                    
+                    string path = Console.ReadLine();               
                     try
                     {
                         Console.WriteLine("");
                         switch (fileType)
                         {
-                            case "TEXT":
-                            case "text":
-                                fileContent = ReadFile.Read(path, ".txt", encrypted);                              
+                            case "TEXT":                         
+                                fileContent = ReadFile.Read(path, ".txt", encrypted, role);                              
                                 pathIncorrect = false;   
                                 break;
                                 
                             case "XML":
-                            case "xml":
-                                fileContent = ReadFile.Read(path, ".xml", encrypted);
+                                fileContent = ReadFile.Read(path, ".xml", encrypted, role);
                                 pathIncorrect = false;
                                 break;
                         }
